@@ -1,15 +1,17 @@
 from textstat import textstat
 import numpy as np
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 
 def plot_fre_acc_graph_for_model(model, dataset, save_path='./img/result.jpg', min_fre=40, max_fre=100, step_size=5):
     data = []
-    for example in dataset:
+    for example in tqdm(dataset):
         fre_score = textstat.flesch_reading_ease(example['article'])
-        logits = model(dataset.collate_fn([example])).logits.unsqueeze()
+        logits = model(**dataset.collate_fn([example])).logits.squeeze()
         pred = logits.argmax(-1)
         result = True if pred.item == example['label'] else False
         data.append((fre_score, result))
+        break
 
     data.sort(key=lambda x: x[0])
 
@@ -29,6 +31,9 @@ def plot_fre_acc_graph_for_model(model, dataset, save_path='./img/result.jpg', m
         else:
             cur_tot += 1
             cur_correct += int(r)
+        i += 1
+
+    print(x, y)
 
     plt.plot(x, y)
     plt.xticks(np.xticks(np.arange(min_fre, max_fre, step_size)))
