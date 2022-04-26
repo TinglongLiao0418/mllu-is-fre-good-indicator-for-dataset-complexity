@@ -4,15 +4,15 @@ sys.path.insert(1, project_path)
 
 from transformers import RobertaTokenizer, RobertaForMultipleChoice
 
-from src.dataset import RACEDataset
+from src.dataset import RACEDatasetForRoberta
 from src.trainer import run_experiment
 
 if __name__ == '__main__':
     model_name_or_path = 'roberta-large'
     tokenizer = RobertaTokenizer.from_pretrained(model_name_or_path)
-    train_dataset = RACEDataset(path="../../data/RACE",
+    train_dataset = RACEDatasetForRoberta(path="../../data/RACE",
                                 tokenizer=tokenizer, split_type='train')
-    eval_dataset = RACEDataset(path="../../data/RACE",
+    eval_dataset = RACEDatasetForRoberta(path="../../data/RACE",
                                tokenizer=tokenizer, split_type='dev')
     model = RobertaForMultipleChoice.from_pretrained(model_name_or_path)
     run_experiment(

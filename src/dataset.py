@@ -60,6 +60,29 @@ class RACEDataset(Dataset):
             'labels': torch.LongTensor(labels)
         }
 
+class RACEDatasetForRoberta(RACEDataset):
+    def __init__(self, path, tokenizer, split_type="train"):
+        super().__init__(path, tokenizer, split_type)
+
+    def collate_fn(self, batch):
+        input_ids = []
+        attention_mask = []
+        labels = []
+
+        for example in batch:
+            prompt = example['article'] + example['question']
+            encoding = self.tokenizer([prompt for i in range(len(example['options']))], example['options'],
+                                      return_tensors="pt", max_length=self.tokenizer.model_max_length,
+                                      padding='max_length', truncation='only_first')
+            input_ids.append(encoding.input_ids)
+            attention_mask.append(encoding.attention_mask)
+            labels.append(example['label'])
+
+        return {
+            'input_ids': torch.stack(input_ids),
+            'attention_mask': torch.stack(attention_mask),
+            'labels': torch.LongTensor(labels)
+        }
 
 class RACEDatasetForT5(RACEDataset):
     def __init__(self, path, tokenizer, split_type="train"):
