@@ -8,12 +8,13 @@ from src.dataset import RACEDataset
 from src.trainer import run_experiment
 
 if __name__ == '__main__':
-    tokenizer = BertTokenizer.from_pretrained('bert-large')
+    model_name_or_path = 'bert-large'
+    tokenizer = BertTokenizer.from_pretrained(model_name_or_path)
     train_dataset = RACEDataset(path="../../data/RACE",
                                 tokenizer=tokenizer, split_type='train')
     eval_dataset = RACEDataset(path="../../data/RACE",
                                tokenizer=tokenizer, split_type='dev')
-    model = BertForMultipleChoice.from_pretrained('bert-large')
+    model = BertForMultipleChoice.from_pretrained(model_name_or_path)
     run_experiment(
         model=model,
         train_dataset=train_dataset,

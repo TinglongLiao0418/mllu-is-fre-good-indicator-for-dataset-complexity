@@ -8,12 +8,13 @@ from src.dataset import RACEDataset
 from src.trainer import run_experiment
 
 if __name__ == '__main__':
-    tokenizer = RobertaTokenizer.from_pretrained('roberta-large')
+    model_name_or_path = 'roberta-large'
+    tokenizer = RobertaTokenizer.from_pretrained(model_name_or_path)
     train_dataset = RACEDataset(path="../../data/RACE",
                                 tokenizer=tokenizer, split_type='train')
     eval_dataset = RACEDataset(path="../../data/RACE",
                                tokenizer=tokenizer, split_type='dev')
-    model = RobertaForMultipleChoice.from_pretrained('roberta-large')
+    model = RobertaForMultipleChoice.from_pretrained(model_name_or_path)
     run_experiment(
         model=model,
         train_dataset=train_dataset,

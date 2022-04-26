@@ -60,18 +60,49 @@ class RACEDataset(Dataset):
             'labels': torch.LongTensor(labels)
         }
 
+
+class RACEDatasetForT5(RACEDataset):
+    def __init__(self, path, tokenizer, split_type="train"):
+        super().__init__(path, tokenizer, split_type)
+
+    def collate_fn(self, batch):
+        input_ids = []
+        attention_mask = []
+        labels = []
+
+        letters = ['A', 'B', 'C', 'D', 'E']
+        for example in batch:
+            prompt = "Article: " + example['article'] + "Question: " +example['question'] + \
+                     ' '.join([letters[i] + '. ' + example['options'][i] for i in range(len(example['options']))])
+            encoding = self.tokenizer(prompt,
+                                      return_tensors="pt", max_length=self.tokenizer.model_max_length - 4,
+                                      padding='max_length', truncation=True)
+            input_ids.append(encoding.input_ids)
+            attention_mask.append(encoding.attention_mask)
+            label = self.tokenizer("Answer: " + example['answer'],
+                                   return_tensors="pt", max_length=4,
+                                   padding='max_length', truncation=True).input_ids
+            labels.append(label)
+
+        return {
+            'input_ids': torch.cat(input_ids, 0),
+            'attention_mask': torch.cat(attention_mask, 0),
+            'labels': torch.cat(labels, 0)
+        }
+
 if __name__ == '__main__':
     from tqdm import tqdm
     from torch.utils.data import DataLoader
-    from transformers import BertTokenizer
+    from transformers import AutoTokenizer
     path = '../data/RACE'
-    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+    model_name_or_path = 't5-small'
+    tokenizer = AutoTokenizer.from_pretrained(model_name_or_path)
     split_type = 'train'
-    train_dataset = RACEDataset(path=path, tokenizer=tokenizer, split_type='train')
+    train_dataset = RACEDatasetForT5(path=path, tokenizer=tokenizer, split_type='train')
     train_dataloader = DataLoader(train_dataset, batch_size=4, collate_fn=train_dataset.collate_fn)
     for i in tqdm(train_dataloader):
-        pass
-
+        print(i)
+        break
     test_dataset = RACEDataset(path=path, tokenizer=tokenizer, split_type='test')
     test_dataloader = DataLoader(test_dataset, batch_size=4, collate_fn=train_dataset.collate_fn)
     for i in tqdm(test_dataloader):
