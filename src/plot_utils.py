@@ -9,7 +9,7 @@ def plot_fre_acc_graph_for_model(model, dataset, save_path='./img/result.jpg', m
         fre_score = textstat.flesch_reading_ease(example['article'])
         logits = model(**dataset.collate_fn([example])).logits.squeeze()
         pred = logits.argmax(-1)
-        result = True if pred.item == example['label'] else False
+        result = True if pred.item() == example['label'] else False
         data.append((fre_score, result))
         break
 
