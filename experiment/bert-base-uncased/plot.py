@@ -9,7 +9,7 @@ from src.dataset import RACEDataset
 if __name__ == '__main__':
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
     test_dataset = RACEDataset(path="../../data/RACE",
-                                tokenizer=tokenizer, split_type='test')
+                               tokenizer=tokenizer, split_type='test')
 
     model = BertForMultipleChoice.from_pretrained('log/checkpoint-65000')
     plot_fre_acc_graph_for_model(model, test_dataset, save_path='fig/result.jpg')

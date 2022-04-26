@@ -11,7 +11,6 @@ def plot_fre_acc_graph_for_model(model, dataset, save_path='./img/result.jpg', m
         pred = logits.argmax(-1)
         result = True if pred.item() == example['label'] else False
         data.append((fre_score, result))
-        break
 
     data.sort(key=lambda x: x[0])
 
@@ -36,7 +35,7 @@ def plot_fre_acc_graph_for_model(model, dataset, save_path='./img/result.jpg', m
     print(x, y)
 
     plt.plot(x, y)
-    plt.xticks(np.xticks(np.arange(min_fre, max_fre, step_size)))
+    plt.xticks(np.arange(min_fre, max_fre, step_size))
     plt.savefig(save_path)
 
 

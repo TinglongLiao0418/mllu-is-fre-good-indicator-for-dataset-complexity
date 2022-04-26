@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=bert-base
+#SBATCH --job-name=plot-bert-base
 #SBATCH --open-mode=append
 #SBATCH --output=log/%j_%x.out
 #SBATCH --error=log/%j_%x.err
