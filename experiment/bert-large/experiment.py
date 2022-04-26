@@ -8,7 +8,7 @@ from src.dataset import RACEDataset
 from src.trainer import run_experiment
 
 if __name__ == '__main__':
-    model_name_or_path = 'bert-large'
+    model_name_or_path = 'bert-large-uncased'
     tokenizer = BertTokenizer.from_pretrained(model_name_or_path)
     train_dataset = RACEDataset(path="../../data/RACE",
                                 tokenizer=tokenizer, split_type='train')

@@ -17,6 +17,7 @@ if __name__ == '__main__':
     model = T5ForConditionalGeneration.from_pretrained(model_name_or_path)
     run_experiment(
         model=model,
+        learning_rate=1e-4,
         train_dataset=train_dataset,
         eval_dataset=eval_dataset,
         data_collator=train_dataset.collate_fn,
