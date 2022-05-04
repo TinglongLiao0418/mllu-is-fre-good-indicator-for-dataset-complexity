@@ -12,7 +12,7 @@ def compute_metric(eval_pred):
 
 
 def run_experiment(model, train_dataset, eval_dataset, data_collator, output_dir='log', learning_rate=1e-5,
-                   gradient_accumulation_steps=2, per_device_train_batch_size=2, per_device_eval_batch_size=4,
+                   gradient_accumulation_steps=4, per_device_train_batch_size=2, per_device_eval_batch_size=4,
                    epoch=3, seed=42):
     train_args = TrainingArguments(
         output_dir=output_dir,
