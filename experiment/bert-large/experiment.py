@@ -19,6 +19,9 @@ if __name__ == '__main__':
         model=model,
         train_dataset=train_dataset,
         eval_dataset=eval_dataset,
+        gradient_accumulation_steps=8,
+        per_device_train_batch_size=1,
+        per_device_eval_batch_size=1,
         data_collator=train_dataset.collate_fn,
         output_dir="log",
     )
