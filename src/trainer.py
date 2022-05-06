@@ -10,6 +10,16 @@ def compute_metric(eval_pred):
         'accuracy': accuracy_score(labels, preds),
     }
 
+def compute_metric_t5(eval_pred):
+    labels = eval_pred.label_ids
+    preds = eval_pred.predictions.logits.argmax(-1)
+
+    acc = (labels == preds).all(dim=-1).int().sum().item() / labels.size(0)
+
+    return {
+        'accuracy': acc
+    }
+
 
 def run_experiment(model, train_dataset, eval_dataset, data_collator, output_dir='log', learning_rate=1e-5,
                    gradient_accumulation_steps=4, per_device_train_batch_size=2, per_device_eval_batch_size=2,
@@ -32,7 +42,7 @@ def run_experiment(model, train_dataset, eval_dataset, data_collator, output_dir
         data_collator=data_collator,
         train_dataset=train_dataset,
         eval_dataset=eval_dataset,
-        compute_metrics=compute_metric
+        compute_metrics=compute_metric_t5
     )
 
     trainer.train()
