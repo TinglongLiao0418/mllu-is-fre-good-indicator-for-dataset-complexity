@@ -12,6 +12,7 @@ if __name__ == '__main__':
     tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
     test_dataset = RACEDatasetForRoberta(path="../../data/RACE",
                                tokenizer=tokenizer, split_type='test')
+    f = open('prediction_fre.csv', 'w')
 
     # df = pd.DataFrame(columns=['fre_score', 'is_right_prediction'])
     model = RobertaForMultipleChoice.from_pretrained('log/checkpoint-65898')
@@ -21,7 +22,9 @@ if __name__ == '__main__':
         pred = logits.argmax(-1)
         result = True if pred.item() == example['label'] else False
         # df.loc[len(df.index)] = {'fre_score': fre_score, 'is_right_prediction': result}
-        print(fre_score, result)
+        f.write(f"{fre_score}, {result}\n")
+
+    f.close()
 
 
     # df.to_csv('prediction_fre.csv')
