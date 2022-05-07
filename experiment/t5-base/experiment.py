@@ -20,6 +20,8 @@ if __name__ == '__main__':
         learning_rate=1e-4,
         train_dataset=train_dataset,
         eval_dataset=eval_dataset,
+        evaluation_strategy="steps",
+        eval_steps=2,
         eval_accumulation_steps=64,
         data_collator=train_dataset.collate_fn,
         output_dir="log",

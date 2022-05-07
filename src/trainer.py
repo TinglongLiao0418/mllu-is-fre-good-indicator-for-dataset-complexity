@@ -49,11 +49,12 @@ def run_experiment(model, train_dataset, eval_dataset, data_collator, output_dir
 
 def run_generative_experiment(model, train_dataset, eval_dataset, data_collator, output_dir='log', learning_rate=1e-5,
                               gradient_accumulation_steps=4, per_device_train_batch_size=2, per_device_eval_batch_size=2,
-                              eval_accumulation_steps=None, epoch=6, seed=42):
+                              evaluation_strategy="epoch", eval_steps=1e5, eval_accumulation_steps=None, epoch=6, seed=42):
     train_args = Seq2SeqTrainingArguments(
         output_dir=output_dir,
         learning_rate=learning_rate,
-        evaluation_strategy='epoch',
+        evaluation_strategy=evaluation_strategy,
+        eval_steps=eval_steps,
         per_device_train_batch_size=per_device_train_batch_size,
         per_device_eval_batch_size=per_device_eval_batch_size,
         gradient_accumulation_steps=gradient_accumulation_steps,
