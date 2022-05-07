@@ -4,7 +4,7 @@ from transformers import Trainer,Seq2SeqTrainer, TrainingArguments, Seq2SeqTrain
 
 def compute_metric(eval_pred):
     labels = eval_pred.label_ids
-    preds = eval_pred.predictions.argmax(-1)
+    preds = eval_pred.predictions[0].argmax(-1)
 
     return {
         'accuracy': accuracy_score(labels, preds),
