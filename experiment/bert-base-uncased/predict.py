@@ -20,7 +20,7 @@ if __name__ == '__main__':
         logits = model(**test_dataset.collate_fn([example])).logits.squeeze()
         pred = logits.argmax(-1)
         result = True if pred.item() == example['label'] else False
-        # df.loc[len(df.index)] = {'fre_score': fre_score, 'is_right_prediction': result}
         print(fre_score, result)
+        # df.loc[len(df.index)] = {'fre_score': fre_score, 'is_right_prediction': result}
 
     # df.to_csv('prediction_fre.csv')
