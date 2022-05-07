@@ -13,13 +13,14 @@ if __name__ == '__main__':
     test_dataset = RACEDataset(path="../../data/RACE",
                                tokenizer=tokenizer, split_type='test')
 
-    df = pd.DataFrame(columns=['fre_score', 'is_right_prediction'])
+    # df = pd.DataFrame(columns=['fre_score', 'is_right_prediction'])
     model = BertForMultipleChoice.from_pretrained('log/checkpoint-65898')
     for example in tqdm(test_dataset):
         fre_score = textstat.flesch_reading_ease(example['article'])
         logits = model(**test_dataset.collate_fn([example])).logits.squeeze()
         pred = logits.argmax(-1)
-        result = 1 if pred.item() == example['label'] else 0
-        df.loc[len(df.index)] = {'fre_score': fre_score, 'is_right_prediction': result}
+        result = True if pred.item() == example['label'] else False
+        # df.loc[len(df.index)] = {'fre_score': fre_score, 'is_right_prediction': result}
+        print(fre_score, result)
 
-    df.to_csv('prediction_fre.csv')
+    # df.to_csv('prediction_fre.csv')
