@@ -6,11 +6,11 @@ from tqdm import tqdm
 import pandas as pd
 from textstat import textstat
 from transformers import RobertaTokenizer, RobertaForMultipleChoice
-from src.dataset import RACEDataset
+from src.dataset import RACEDatasetForRoberta
 
 if __name__ == '__main__':
     tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
-    test_dataset = RACEDataset(path="../../data/RACE",
+    test_dataset = RACEDatasetForRoberta(path="../../data/RACE",
                                tokenizer=tokenizer, split_type='test')
 
     df = pd.DataFrame(columns=['fre_score', 'is_right_prediction'])
