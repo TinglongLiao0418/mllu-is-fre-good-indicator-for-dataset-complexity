@@ -5,7 +5,7 @@ sys.path.insert(1, project_path)
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 
 from src.dataset import RACEDatasetForT5
-from src.trainer import run_experiment
+from src.trainer import run_generative_experiment
 
 if __name__ == '__main__':
     model_name_or_path = 't5-small'
@@ -15,7 +15,7 @@ if __name__ == '__main__':
     eval_dataset = RACEDatasetForT5(path="../../data/RACE",
                                     tokenizer=tokenizer, split_type='dev')
     model = T5ForConditionalGeneration.from_pretrained(model_name_or_path)
-    run_experiment(
+    run_generative_experiment(
         model=model,
         learning_rate=1e-4,
         train_dataset=train_dataset,
