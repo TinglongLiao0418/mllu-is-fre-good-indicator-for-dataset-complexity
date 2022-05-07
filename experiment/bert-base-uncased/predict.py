@@ -14,7 +14,7 @@ if __name__ == '__main__':
                                tokenizer=tokenizer, split_type='test')
 
     df = pd.DataFrame(columns=['fre_score', 'is_right_prediction'])
-    model = BertForMultipleChoice.from_pretrained('log/checkpoint-65000')
+    model = BertForMultipleChoice.from_pretrained('log/checkpoint-65898')
     for example in tqdm(test_dataset):
         fre_score = textstat.flesch_reading_ease(example['article'])
         logits = model(**test_dataset.collate_fn([example])).logits.squeeze()

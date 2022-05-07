@@ -9,7 +9,7 @@ from transformers import RobertaTokenizer, RobertaForMultipleChoice
 from src.dataset import RACEDataset
 
 if __name__ == '__main__':
-    tokenizer = RobertaTokenizer.from_pretrained('bert-base-uncased')
+    tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
     test_dataset = RACEDataset(path="../../data/RACE",
                                tokenizer=tokenizer, split_type='test')
 
