@@ -12,7 +12,7 @@ def compute_metric(eval_pred):
 
 def compute_metric_t5(eval_pred):
     labels = eval_pred.label_ids
-    preds = eval_pred.predictions.argmax(-1)
+    preds = eval_pred.predictions.logits.argmax(-1)
 
     acc = (labels == preds).all(dim=-1).int().sum().item() / labels.size(0)
 
