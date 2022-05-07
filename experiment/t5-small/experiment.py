@@ -20,7 +20,7 @@ if __name__ == '__main__':
         learning_rate=1e-4,
         train_dataset=train_dataset,
         eval_dataset=eval_dataset,
-        per_device_eval_batch_size=1,
+        eval_accumulation_steps=8,
         data_collator=train_dataset.collate_fn,
         output_dir="log",
     )
